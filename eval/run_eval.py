@@ -94,10 +94,16 @@ def main() -> int:
     rows = load(args.split)
     passed = {r["id"] for r in rows if prefilter.is_candidate(r["text"])}
     if args.no_llm:
+        stats = {}
         for split in ("dev", "test", "all"):
             sub = [r for r in rows if split == "all" or r["split"] == split]
             if sub:
-                print(split, filter_stats(sub, passed))
+                stats[split] = filter_stats(sub, passed)
+                print(split, stats[split])
+        out = HERE / "results" / f"{date.today()}-prefilter.json"
+        out.parent.mkdir(exist_ok=True)
+        report = {"run_at": datetime.now().isoformat(timespec="seconds"), "splits": stats}
+        out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8")
         missed = [r for r in rows if r["gold"] and r["id"] not in passed]
         noisy = [r for r in rows if not r["gold"] and r["id"] in passed]
         print(f"\npromise messages the filter drops ({len(missed)}):")

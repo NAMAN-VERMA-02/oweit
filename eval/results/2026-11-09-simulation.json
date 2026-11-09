@@ -1,0 +1,32 @@
+{
+ "run_at": "2026-11-09T22:12:15",
+ "kind": "simulation (fake clock, hand-written calendar and busy trace)",
+ "promises_from": "gold",
+ "days": 39,
+ "promises": 97,
+ "notifications": 30,
+ "notifications_by_mode": {
+  "nudge": 17,
+  "digest": 13
+ },
+ "max_notifications_in_a_day": 1,
+ "days_with_a_notification": 30,
+ "reminders_per_promise_mean": 0.9,
+ "reminders_per_promise_max": 2,
+ "reminders_per_promise_histogram": {
+  "0": 20,
+  "1": 67,
+  "2": 10
+ },
+ "deferrals_by_reason": {
+  "calendar": 18,
+  "dnd": 4,
+  "fullscreen": 2
+ },
+ "promises_moved_because_busy": 24,
+ "reschedules": 4,
+ "dated_promises_never_reminded_by_due_date": {
+  "made_and_due_same_day": 18,
+  "due_a_later_day": 0
+ }
+}

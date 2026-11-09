@@ -1,0 +1,10 @@
+# copy to %APPDATA%\oweit\config.toml (Windows) or ~/.config/oweit/config.toml
+me = ["Naman"]                      # your name as it appears in WhatsApp exports
+emails = ["naman@example.com"]      # your address(es), to find your own mails in an mbox
+# an .ics file, or Google Calendar -> Settings -> your calendar -> "Secret address in iCal format"
+calendar = "eval/sim/timetable.ics"
+day_start = "09:00"                 # no reminders outside day_start..day_end
+day_end = "22:00"
+digest_after = "10:00"              # earliest the daily digest may arrive
+packed_ratio = 0.7                  # a day this booked is "packed": only due-today nudges
+min_slot_minutes = 20               # smallest calendar gap that counts as free

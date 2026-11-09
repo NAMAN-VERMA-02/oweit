@@ -121,7 +121,8 @@ def cmd_tick(args, cfg, conn) -> None:
             print(f"would send: {title} | {body.replace(chr(10), ' | ')}")
 
     result = schedule.tick(conn, cal, s, now, busy.reason, send)
-    print(f"{now:%Y-%m-%d %H:%M} tick: {result}")
+    label = "tick (dry run, nothing saved)" if args.dry_run else "tick"
+    print(f"{now:%Y-%m-%d %H:%M} {label}: {result}")
     if args.dry_run:
         conn.rollback()
 
