@@ -102,39 +102,15 @@ def test_scan_end_to_end_with_fake_claude(tmp_path, monkeypatch, capsys):
     import anthropic
 
     monkeypatch.setattr(anthropic, "Anthropic", lambda: fake)
-    db = str(tmp_path / "o.db")
-    assert (
-        main(
-            [
-                "--db",
-                db,
-                "--config",
-                str(tmp_path / "none.toml"),
-                "scan",
-                str(chat),
-                "--me",
-                "Naman",
-            ]
-        )
-        == 0
-    )
+    db, cfg = str(tmp_path / "o.db"), str(tmp_path / "none.toml")
+
+    def run(*a):
+        return main(["--db", db, "--config", cfg, *a])
+
+    assert run("scan", str(chat), "--me", "Naman") == 0
     assert len(fake.calls) == 1  # "sent you the lab file" never reached Claude
-    assert (
-        main(
-            [
-                "--db",
-                db,
-                "--config",
-                str(tmp_path / "none.toml"),
-                "scan",
-                str(chat),
-                "--me",
-                "Naman",
-            ]
-        )
-        == 0
-    )
+    assert run("scan", str(chat), "--me", "Naman") == 0
     assert len(fake.calls) == 1  # rescan: already seen, zero calls
-    assert main(["--db", db, "--config", str(tmp_path / "none.toml"), "list"]) == 0
+    assert run("list") == 0
     out = capsys.readouterr().out
     assert "Sun 18 Oct  Riya: send the DBMS notes" in out
