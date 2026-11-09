@@ -119,9 +119,13 @@ def main() -> int:
     )
     counts = [per_promise.get(r[0], 0) for r in conn.execute("SELECT id FROM promises")]
     missed = conn.execute(
-        "SELECT COUNT(*) FROM promises p WHERE due IS NOT NULL AND due>=created AND NOT EXISTS "
-        "(SELECT 1 FROM log l WHERE l.promise_id=p.id AND l.kind='reminded' AND l.day<=p.due)"
-    ).fetchone()[0]
+        "SELECT due=created, COUNT(*) FROM promises p WHERE due IS NOT NULL AND due>=created AND "
+        "NOT EXISTS (SELECT 1 FROM log l WHERE l.promise_id=p.id AND l.kind='reminded' "
+        "AND l.day<=p.due) GROUP BY due=created"
+    ).fetchall()
+    missed = {"made_and_due_same_day": 0, "due_a_later_day": 0} | {
+        ("made_and_due_same_day" if same else "due_a_later_day"): n for same, n in missed
+    }
     per_day = Counter(d for d, _, _ in sent)
     st = schedule.stats(conn)
     report = {
