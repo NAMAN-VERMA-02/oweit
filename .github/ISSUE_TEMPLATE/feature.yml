@@ -1,0 +1,21 @@
+name: Feature request
+description: Something oweit should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What do you keep forgetting, or what does oweit do that annoys you?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you'd like instead
+  - type: checkboxes
+    id: gentle
+    attributes:
+      label: Still gentle?
+      options:
+        - label: This keeps oweit at one reminder a day at most

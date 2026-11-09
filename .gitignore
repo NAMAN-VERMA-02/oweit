@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+*.db
+# your own exports never belong in the repo
+private/
+*.mbox
+!examples/*.mbox
