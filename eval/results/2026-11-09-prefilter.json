@@ -1,0 +1,23 @@
+{
+ "run_at": "2026-11-09T22:07:01",
+ "splits": {
+  "dev": {
+   "messages": 101,
+   "sent_to_claude": 66,
+   "llm_calls_avoided": 0.347,
+   "filter_recall": 1.0
+  },
+  "test": {
+   "messages": 101,
+   "sent_to_claude": 61,
+   "llm_calls_avoided": 0.396,
+   "filter_recall": 0.878
+  },
+  "all": {
+   "messages": 202,
+   "sent_to_claude": 127,
+   "llm_calls_avoided": 0.371,
+   "filter_recall": 0.938
+  }
+ }
+}
