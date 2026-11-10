@@ -1,7 +1,12 @@
-"""Claude pulls out who/what/when; dateparser turns 'when' into a date."""
+"""An LLM (Claude, or Gemini as a fallback) pulls out who/what/when; dateparser turns 'when'
+into a date."""
 
 import json
+import os
 import re
+import time
+import urllib.error
+import urllib.request
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 
@@ -127,7 +132,107 @@ def resolve_date(phrase: str | None, base: datetime) -> date | None:
     return d.date() if d else None
 
 
-def extract(msg: Message, client: anthropic.Anthropic) -> Result:
+GEMINI_MODEL = os.environ.get("OWEIT_GEMINI_MODEL", "gemini-3.5-flash")
+# Gemini's responseSchema is OpenAPI-style: nullable instead of anyOf, no additionalProperties
+_GEMINI_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "promises": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "to": {"type": "string"},
+                    "what": {"type": "string"},
+                    "due_phrase": {"type": "string", "nullable": True},
+                    "quote": {"type": "string"},
+                },
+                "required": ["to", "what", "due_phrase", "quote"],
+            },
+        }
+    },
+    "required": ["promises"],
+}
+
+
+class GeminiClient:
+    """Minimal Gemini REST client (stdlib only). The key goes in a header, never the URL."""
+
+    def __init__(self, key: str, model: str = GEMINI_MODEL):
+        self.key, self.model = key, model
+
+    def generate(self, user: str) -> tuple[dict | None, int, int]:
+        url = (
+            f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
+        )
+        body = {
+            "systemInstruction": {"parts": [{"text": SYSTEM}]},
+            "contents": [{"role": "user", "parts": [{"text": user}]}],
+            "generationConfig": {
+                "responseMimeType": "application/json",
+                "responseSchema": _GEMINI_SCHEMA,
+                "temperature": 0,
+            },
+        }
+        req = urllib.request.Request(
+            url,
+            json.dumps(body).encode(),
+            {"Content-Type": "application/json", "x-goog-api-key": self.key},
+        )
+        for attempt in range(8):
+            try:
+                with urllib.request.urlopen(req, timeout=300) as r:
+                    data = json.load(r)
+                break
+            except TimeoutError:
+                if attempt == 7:
+                    raise RuntimeError("Gemini API error: timed out 8 times") from None
+                continue
+            except urllib.error.HTTPError as e:
+                if e.code not in (429, 500, 503, 504) or attempt == 7:
+                    raise RuntimeError(f"Gemini API error {e.code}: {e.read()[:300]!r}") from None
+                time.sleep(min(60, 2**attempt * 2))  # free tier rate limits: back off and retry
+        u = data.get("usageMetadata", {})
+        tin = u.get("promptTokenCount", 0)
+        tout = u.get("candidatesTokenCount", 0) + u.get("thoughtsTokenCount", 0)
+        cands = data.get("candidates") or []
+        if not cands or cands[0].get("finishReason") in ("SAFETY", "PROHIBITED_CONTENT"):
+            return None, tin, tout  # blocked = refusal
+        text = "".join(p.get("text", "") for p in cands[0]["content"]["parts"])
+        return json.loads(text), tin, tout
+
+
+def make_client():
+    """Gemini only when GEMINI_API_KEY is set and ANTHROPIC_API_KEY is not; Claude otherwise."""
+    key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if key and not os.environ.get("ANTHROPIC_API_KEY"):
+        return GeminiClient(key)
+    return anthropic.Anthropic()
+
+
+def model_name(client) -> str:
+    return client.model if isinstance(client, GeminiClient) else MODEL
+
+
+def _promises(items: list[dict], msg: Message) -> list[Promise]:
+    return [
+        Promise(
+            i["to"],
+            i["what"],
+            resolve_date(i.get("due_phrase"), msg.ts),
+            i.get("due_phrase"),
+            i["quote"],
+        )
+        for i in items
+    ]
+
+
+def extract(msg: Message, client) -> Result:
+    if isinstance(client, GeminiClient):
+        data, tin, tout = client.generate(render(msg))
+        if data is None:
+            return Result([], tin, tout, refused=True)
+        return Result(_promises(data["promises"], msg), tin, tout)
     resp = client.beta.messages.create(
         model=MODEL,
         max_tokens=16000,
@@ -141,11 +246,4 @@ def extract(msg: Message, client: anthropic.Anthropic) -> Result:
     if resp.stop_reason == "refusal":
         return Result([], *usage, refused=True)
     text = next(b.text for b in resp.content if b.type == "text")
-    items = json.loads(text)["promises"]
-    promises = [
-        Promise(
-            i["to"], i["what"], resolve_date(i["due_phrase"], msg.ts), i["due_phrase"], i["quote"]
-        )
-        for i in items
-    ]
-    return Result(promises, *usage)
+    return Result(_promises(json.loads(text)["promises"], msg), *usage)

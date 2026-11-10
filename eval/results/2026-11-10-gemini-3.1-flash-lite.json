@@ -1,0 +1,2655 @@
+{
+ "run_at": "2026-11-10T13:19:41",
+ "model": "gemini-3.1-flash-lite",
+ "effort": null,
+ "dataset": "eval/messages.jsonl (hand-written, hand-labelled)",
+ "refusals": 0,
+ "cost_usd": null,
+ "tokens": {
+  "input": 101587,
+  "output": 7293
+ },
+ "splits": {
+  "test": {
+   "prefilter": {
+    "messages": 101,
+    "sent_to_claude": 61,
+    "llm_calls_avoided": 0.396,
+    "filter_recall": 0.878
+   },
+   "pipeline": {
+    "precision": 0.955,
+    "recall": 0.857,
+    "f1": 0.903,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.952,
+    "tp": 42,
+    "fp": 2,
+    "fn": 7
+   },
+   "no_filter": {
+    "precision": 0.96,
+    "recall": 0.98,
+    "f1": 0.97,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.958,
+    "tp": 48,
+    "fp": 2,
+    "fn": 1
+   },
+   "pipeline_by_lang": {
+    "en": {
+     "precision": 0.939,
+     "recall": 0.838,
+     "f1": 0.886,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 0.935,
+     "tp": 31,
+     "fp": 2,
+     "fn": 6
+    },
+    "hinglish": {
+     "precision": 1.0,
+     "recall": 0.917,
+     "f1": 0.957,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 1.0,
+     "tp": 11,
+     "fp": 0,
+     "fn": 1
+    }
+   }
+  },
+  "dev": {
+   "prefilter": {
+    "messages": 101,
+    "sent_to_claude": 66,
+    "llm_calls_avoided": 0.347,
+    "filter_recall": 1.0
+   },
+   "pipeline": {
+    "precision": 0.96,
+    "recall": 1.0,
+    "f1": 0.98,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.938,
+    "tp": 48,
+    "fp": 2,
+    "fn": 0
+   },
+   "no_filter": {
+    "precision": 0.941,
+    "recall": 1.0,
+    "f1": 0.97,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.938,
+    "tp": 48,
+    "fp": 3,
+    "fn": 0
+   },
+   "pipeline_by_lang": {
+    "en": {
+     "precision": 0.949,
+     "recall": 1.0,
+     "f1": 0.974,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 0.946,
+     "tp": 37,
+     "fp": 2,
+     "fn": 0
+    },
+    "hinglish": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 0.909,
+     "tp": 11,
+     "fp": 0,
+     "fn": 0
+    }
+   }
+  },
+  "all": {
+   "prefilter": {
+    "messages": 202,
+    "sent_to_claude": 127,
+    "llm_calls_avoided": 0.371,
+    "filter_recall": 0.938
+   },
+   "pipeline": {
+    "precision": 0.957,
+    "recall": 0.928,
+    "f1": 0.942,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.944,
+    "tp": 90,
+    "fp": 4,
+    "fn": 7
+   },
+   "no_filter": {
+    "precision": 0.95,
+    "recall": 0.99,
+    "f1": 0.97,
+    "recipient_accuracy": 1.0,
+    "date_accuracy": 0.948,
+    "tp": 96,
+    "fp": 5,
+    "fn": 1
+   },
+   "pipeline_by_lang": {
+    "en": {
+     "precision": 0.944,
+     "recall": 0.919,
+     "f1": 0.932,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 0.941,
+     "tp": 68,
+     "fp": 4,
+     "fn": 6
+    },
+    "hinglish": {
+     "precision": 1.0,
+     "recall": 0.957,
+     "f1": 0.978,
+     "recipient_accuracy": 1.0,
+     "date_accuracy": 0.955,
+     "tp": 22,
+     "fp": 0,
+     "fn": 1
+    }
+   }
+  }
+ },
+ "predictions": {
+  "m001": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "send the dbms notes",
+     "due_phrase": "Sunday",
+     "due": "2026-10-11"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "send the DBMS notes",
+     "due": "2026-10-11"
+    }
+   ]
+  },
+  "m002": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "pay 500 for the movie",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-02"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "pay back 500",
+     "due": "2026-10-02"
+    }
+   ]
+  },
+  "m003": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "call you",
+     "due_phrase": "after dinner",
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "call her",
+     "due": "2026-10-02"
+    }
+   ]
+  },
+  "m004": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "do and share the ER diagram",
+     "due_phrase": "Thursday night",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "make and share the ER diagram",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m005": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "pick up milk",
+     "due_phrase": "this evening",
+     "due": "2026-10-07"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "pick up milk",
+     "due": "2026-10-07"
+    }
+   ]
+  },
+  "m006": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "DSA Squad",
+     "what": "host the mock interview",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-04"
+    },
+    {
+     "to": "DSA Squad",
+     "what": "send the meet link",
+     "due_phrase": "tomorrow 10am",
+     "due": "2026-10-04"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohan",
+      "DSA Squad"
+     ],
+     "what": "host the mock interview, send the link",
+     "due": "2026-10-04"
+    }
+   ]
+  },
+  "m007": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Arjun",
+     "what": "send resume",
+     "due_phrase": "tonight",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Arjun"
+     ],
+     "what": "send resume",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m008": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "bring calculator to class",
+     "due_phrase": "Monday",
+     "due": "2026-10-12"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha"
+     ],
+     "what": "bring the calculator",
+     "due": "2026-10-12"
+    }
+   ]
+  },
+  "m009": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Papa",
+     "what": "mail the fees receipt",
+     "due_phrase": "tomorrow morning",
+     "due": "2026-10-12"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Papa"
+     ],
+     "what": "mail the fees receipt",
+     "due": "2026-10-12"
+    }
+   ]
+  },
+  "m010": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev",
+     "what": "push a fix for login API",
+     "due_phrase": "tomorrow before standup",
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev"
+     ],
+     "what": "push a fix for the login API",
+     "due": "2026-10-13"
+    }
+   ]
+  },
+  "m011": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Tanya",
+     "what": "attend birthday dinner",
+     "due_phrase": "Saturday 8pm",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Tanya"
+     ],
+     "what": "come to her birthday dinner",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m012": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "ask Kabir and get back to you",
+     "due_phrase": null,
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "ask Kabir about the lab manual, get back",
+     "due": null
+    }
+   ]
+  },
+  "m013": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Rohit",
+     "what": "set up python on laptop",
+     "due_phrase": "Saturday",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohit"
+     ],
+     "what": "set up Python on his laptop",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m014": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "CSE-B 2028",
+     "what": "upload the OS assignment pdf",
+     "due_phrase": "in 5 minutes",
+     "due": "2026-10-16"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Megha",
+      "CSE-B 2028"
+     ],
+     "what": "upload the OS assignment pdf",
+     "due": "2026-10-16"
+    }
+   ]
+  },
+  "m015": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "bring the ball",
+     "due_phrase": "today",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "bring the football",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m016": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "book train ticket for diwali",
+     "due_phrase": "today",
+     "due": "2026-10-18"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "book the Diwali train ticket",
+     "due": "2026-10-18"
+    }
+   ]
+  },
+  "m017": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "add 3 slides on results",
+     "due_phrase": "tomorrow evening",
+     "due": "2026-10-20"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "add results slides to the ppt",
+     "due": "2026-10-20"
+    }
+   ]
+  },
+  "m018": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "transfer rent share",
+     "due_phrase": "25th",
+     "due": "2026-10-25"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "transfer rent share",
+     "due": "2026-10-25"
+    }
+   ]
+  },
+  "m019": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Arjun",
+     "what": "send the interview questions",
+     "due_phrase": "tonight",
+     "due": "2026-10-21"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Arjun"
+     ],
+     "what": "send the interview questions",
+     "due": "2026-10-21"
+    }
+   ]
+  },
+  "m020": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "review SOP and send comments",
+     "due_phrase": "this weekend",
+     "due": "2026-10-24"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha"
+     ],
+     "what": "review the SOP, send comments",
+     "due": "2026-10-24"
+    }
+   ]
+  },
+  "m021": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev",
+     "what": "write tests for the payment module",
+     "due_phrase": "Wednesday",
+     "due": "2026-10-28"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev"
+     ],
+     "what": "write tests for the payment module",
+     "due": "2026-10-28"
+    }
+   ]
+  },
+  "m022": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Tanya",
+     "what": "return the book",
+     "due_phrase": "Monday",
+     "due": "2026-10-26"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Tanya"
+     ],
+     "what": "return her book",
+     "due": "2026-10-26"
+    }
+   ]
+  },
+  "m023": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "post 5 graph problems",
+     "due_phrase": "tonight",
+     "due": "2026-10-25"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha",
+      "DSA Squad"
+     ],
+     "what": "post 5 graph problems",
+     "due": "2026-10-25"
+    }
+   ]
+  },
+  "m024": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "print and give assignment",
+     "due_phrase": "4pm today",
+     "due": "2026-10-26"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "print her assignment",
+     "due": "2026-10-26"
+    }
+   ]
+  },
+  "m025": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Papa",
+     "what": "scan and send insurance documents",
+     "due_phrase": "Thursday",
+     "due": "2026-10-29"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Papa"
+     ],
+     "what": "scan and send insurance documents",
+     "due": "2026-10-29"
+    }
+   ]
+  },
+  "m026": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "send CN notes",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-29"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "send CN notes",
+     "due": "2026-10-29"
+    }
+   ]
+  },
+  "m027": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "record and share the demo video link",
+     "due_phrase": "Saturday",
+     "due": "2026-10-31"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "record the demo video, share link",
+     "due": "2026-10-31"
+    }
+   ]
+  },
+  "m028": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "get the snacks",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-31"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "get snacks for the party",
+     "due": "2026-10-31"
+    }
+   ]
+  },
+  "m029": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "send a photo of my new room",
+     "due_phrase": "this evening",
+     "due": "2026-10-01"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "send a photo of the room",
+     "due": "2026-10-01"
+    }
+   ]
+  },
+  "m030": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "fill the hackathon form",
+     "due_phrase": "tonight",
+     "due": "2026-10-05"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha"
+     ],
+     "what": "fill the hackathon form",
+     "due": "2026-10-05"
+    }
+   ]
+  },
+  "m031": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Rohit",
+     "what": "drop the charger at your place",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohit"
+     ],
+     "what": "return his charger",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m032": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Arjun",
+     "what": "message free slots for mock interview",
+     "due_phrase": "tonight",
+     "due": "2026-10-10"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Arjun"
+     ],
+     "what": "send free slots",
+     "due": "2026-10-10"
+    }
+   ]
+  },
+  "m033": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev",
+     "what": "review the PR",
+     "due_phrase": "after lunch",
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev"
+     ],
+     "what": "review the PR",
+     "due": "2026-10-13"
+    }
+   ]
+  },
+  "m034": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Tanya",
+     "what": "send the trip photos",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-16"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Tanya"
+     ],
+     "what": "send trip photos",
+     "due": "2026-10-16"
+    }
+   ]
+  },
+  "m035": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "arrive at the library",
+     "due_phrase": "in 20 minutes",
+     "due": "2026-10-18"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "come to the library",
+     "due": "2026-10-18"
+    }
+   ]
+  },
+  "m036": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "finish the report intro",
+     "due_phrase": "tonight",
+     "due": "2026-10-21"
+    },
+    {
+     "to": "Priya",
+     "what": "email the guide about review date",
+     "due_phrase": "Friday",
+     "due": "2026-10-23"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "finish the report intro",
+     "due": "2026-10-21"
+    },
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "email the guide about the review date",
+     "due": "2026-10-23"
+    }
+   ]
+  },
+  "m037": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "buy the medicines for nani",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-25"
+    },
+    {
+     "to": "Mom",
+     "what": "call mamaji",
+     "due_phrase": "tonight",
+     "due": "2026-10-24"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "buy medicines for nani",
+     "due": "2026-10-25"
+    },
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "call mamaji",
+     "due": "2026-10-24"
+    }
+   ]
+  },
+  "m038": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "pay the wifi bill",
+     "due_phrase": null,
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "pay the wifi bill",
+     "due": null
+    }
+   ]
+  },
+  "m039": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "mark your attendance",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-30"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "mark his lab attendance",
+     "due": "2026-10-30"
+    }
+   ]
+  },
+  "m040": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Warden Sir",
+     "what": "keep room ready for inspection",
+     "due_phrase": "Sunday",
+     "due": "2026-11-01"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Warden Sir",
+      "Hostel Wing C"
+     ],
+     "what": "keep the room ready for inspection",
+     "due": "2026-11-01"
+    }
+   ]
+  },
+  "m041": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "send DBMS notes",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-03"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "send DBMS notes",
+     "due": "2026-10-03"
+    }
+   ]
+  },
+  "m042": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "pay 200 rupees",
+     "due_phrase": "this evening",
+     "due": "2026-10-04"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "return 200",
+     "due": "2026-10-04"
+    }
+   ]
+  },
+  "m043": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "call nani",
+     "due_phrase": "tomorrow morning",
+     "due": "2026-10-07"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "call nani",
+     "due": "2026-10-07"
+    }
+   ]
+  },
+  "m044": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "order dinner",
+     "due_phrase": "now",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "order dinner",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m045": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "DSA Squad",
+     "what": "host the contest",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-11"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohan",
+      "DSA Squad"
+     ],
+     "what": "host the contest",
+     "due": "2026-10-11"
+    }
+   ]
+  },
+  "m046": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "write the literature review part",
+     "due_phrase": "in 2 days",
+     "due": "2026-10-14"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "write the literature review",
+     "due": "2026-10-14"
+    }
+   ]
+  },
+  "m047": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Papa",
+     "what": "fill and send the bank form",
+     "due_phrase": "this weekend",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Papa"
+     ],
+     "what": "fill and send the bank form",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m048": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Rohit",
+     "what": "return the laptop",
+     "due_phrase": "Monday",
+     "due": "2026-10-19"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohit"
+     ],
+     "what": "return his laptop",
+     "due": "2026-10-19"
+    }
+   ]
+  },
+  "m049": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "send the OS assignment",
+     "due_phrase": "tonight",
+     "due": "2026-10-18"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha"
+     ],
+     "what": "finish and send the OS assignment",
+     "due": "2026-10-18"
+    }
+   ]
+  },
+  "m050": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "book the gas cylinder",
+     "due_phrase": "today",
+     "due": "2026-10-20"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "book the gas cylinder",
+     "due": "2026-10-20"
+    }
+   ]
+  },
+  "m051": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "pick you up for gym",
+     "due_phrase": "tomorrow 6am",
+     "due": "2026-10-23"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "go to the gym with him",
+     "due": "2026-10-23"
+    }
+   ]
+  },
+  "m052": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "come home for Diwali",
+     "due_phrase": "28 October",
+     "due": "2026-10-28"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "come home for Diwali",
+     "due": "2026-10-28"
+    }
+   ]
+  },
+  "m053": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "print the project report",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-27"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "get the project report printed",
+     "due": "2026-10-27"
+    }
+   ]
+  },
+  "m054": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev",
+     "what": "deploy the project",
+     "due_phrase": "this evening",
+     "due": "2026-10-28"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev"
+     ],
+     "what": "deploy",
+     "due": "2026-10-28"
+    }
+   ]
+  },
+  "m055": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Tanya",
+     "what": "return the notes copy",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-31"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Tanya"
+     ],
+     "what": "return her notes copy",
+     "due": "2026-10-31"
+    }
+   ]
+  },
+  "m056": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Papa",
+     "what": "pay the electricity bill",
+     "due_phrase": "now",
+     "due": "2026-11-01"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Papa"
+     ],
+     "what": "pay the electricity bill",
+     "due": "2026-11-01"
+    }
+   ]
+  },
+  "m057": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Megha",
+     "what": "bring the attendance sheet",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-07"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Megha",
+      "CSE-B 2028"
+     ],
+     "what": "bring the attendance sheet",
+     "due": "2026-10-07"
+    }
+   ]
+  },
+  "m058": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Arjun",
+     "what": "send resume for referral",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-09"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Arjun"
+     ],
+     "what": "send resume for referral",
+     "due": "2026-10-09"
+    }
+   ]
+  },
+  "m059": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Rohit",
+     "what": "book the 7pm movie tickets",
+     "due_phrase": null,
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohit"
+     ],
+     "what": "book movie tickets",
+     "due": "2026-10-10"
+    }
+   ]
+  },
+  "m060": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha",
+     "what": "send the DP playlist",
+     "due_phrase": null,
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha"
+     ],
+     "what": "send the DP playlist",
+     "due": null
+    }
+   ]
+  },
+  "m061": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "talk after meeting",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-15"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "talk to the guide",
+     "due": "2026-10-15"
+    }
+   ]
+  },
+  "m062": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "take the room keys",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir"
+     ],
+     "what": "take the room key",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m063": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Prof. Sharma",
+     "what": "submit assignment 3",
+     "due_phrase": "Friday",
+     "due": "2026-10-09"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Prof. Sharma"
+     ],
+     "what": "submit DBMS assignment 3",
+     "due": "2026-10-09"
+    }
+   ]
+  },
+  "m064": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Zeta Recruiting",
+     "what": "share my availability",
+     "due_phrase": "tomorrow evening",
+     "due": "2026-10-07"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Zeta Recruiting"
+     ],
+     "what": "share interview availability",
+     "due": "2026-10-07"
+    }
+   ]
+  },
+  "m065": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya Sharma",
+     "what": "send the final synopsis",
+     "due_phrase": "tomorrow morning",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya Sharma"
+     ],
+     "what": "send the final synopsis",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m066": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Training & Placement Cell",
+     "what": "submit the marksheets",
+     "due_phrase": "Monday",
+     "due": "2026-10-12"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Training & Placement Cell"
+     ],
+     "what": "submit marksheets",
+     "due": "2026-10-12"
+    }
+   ]
+  },
+  "m067": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Prof. Gupta",
+     "what": "complete experiments 6 to 8",
+     "due_phrase": "Thursday",
+     "due": "2026-10-15"
+    },
+    {
+     "to": "Prof. Gupta",
+     "what": "show the lab file",
+     "due_phrase": "Thursday",
+     "due": "2026-10-15"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Prof. Gupta"
+     ],
+     "what": "complete experiments 6-8",
+     "due": "2026-10-15"
+    }
+   ]
+  },
+  "m068": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "HackKIET Team",
+     "what": "send all four members' details",
+     "due_phrase": "today",
+     "due": "2026-10-13"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "HackKIET Team"
+     ],
+     "what": "send team member details",
+     "due": "2026-10-13"
+    }
+   ]
+  },
+  "m069": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Arjun Mehta",
+     "what": "send job ID and updated resume",
+     "due_phrase": "tonight",
+     "due": "2026-10-15"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Arjun Mehta"
+     ],
+     "what": "send job ID and updated resume",
+     "due": "2026-10-15"
+    }
+   ]
+  },
+  "m070": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Mr. Khanna",
+     "what": "transfer the remaining deposit",
+     "due_phrase": "20 October",
+     "due": "2026-10-20"
+    },
+    {
+     "to": "Mr. Khanna",
+     "what": "send the receipt",
+     "due_phrase": "20 October",
+     "due": "2026-10-20"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mr. Khanna"
+     ],
+     "what": "transfer remaining deposit, send receipt",
+     "due": "2026-10-20"
+    }
+   ]
+  },
+  "m071": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Priya Singh",
+     "what": "do the IEEE formatting",
+     "due_phrase": null,
+     "due": null
+    },
+    {
+     "to": "Priya Singh",
+     "what": "share the doc",
+     "due_phrase": "Wednesday night",
+     "due": "2026-10-21"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya Singh"
+     ],
+     "what": "do IEEE formatting, share the doc",
+     "due": "2026-10-21"
+    }
+   ]
+  },
+  "m072": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dr. Rao",
+     "what": "send a progress update",
+     "due_phrase": "this Saturday",
+     "due": "2026-10-24"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dr. Rao"
+     ],
+     "what": "send weekly progress update",
+     "due": "2026-10-24"
+    }
+   ]
+  },
+  "m073": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Rohit Verma",
+     "what": "send a laptop shortlist",
+     "due_phrase": "Sunday",
+     "due": "2026-10-25"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Rohit Verma"
+     ],
+     "what": "send a laptop shortlist",
+     "due": "2026-10-25"
+    }
+   ]
+  },
+  "m074": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Zeta Recruiting",
+     "what": "send the signed documents",
+     "due_phrase": "in 3 days",
+     "due": "2026-10-29"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Zeta Recruiting"
+     ],
+     "what": "send signed documents",
+     "due": "2026-10-29"
+    }
+   ]
+  },
+  "m075": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Prof. Sharma",
+     "what": "inform the batch about the viva",
+     "due_phrase": "today",
+     "due": "2026-10-28"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Prof. Sharma"
+     ],
+     "what": "inform the batch about the viva",
+     "due": "2026-10-28"
+    }
+   ]
+  },
+  "m076": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Sneha Kapoor",
+     "what": "read SOP and send comments",
+     "due_phrase": "the weekend",
+     "due": "2026-10-31"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Sneha Kapoor"
+     ],
+     "what": "read the SOP, send comments",
+     "due": "2026-10-31"
+    }
+   ]
+  },
+  "m077": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "HackKIET Team",
+     "what": "attend the mentor session",
+     "due_phrase": "Saturday",
+     "due": "2026-10-03"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "HackKIET Team"
+     ],
+     "what": "attend the mentor session",
+     "due": "2026-10-03"
+    }
+   ]
+  },
+  "m078": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Papa",
+     "what": "scan and mail the fee receipt",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-05"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Papa"
+     ],
+     "what": "mail the semester fee receipt",
+     "due": "2026-10-05"
+    }
+   ]
+  },
+  "m079": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya Sharma",
+     "what": "make slides 5-9",
+     "due_phrase": "Thursday",
+     "due": "2026-10-08"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya Sharma"
+     ],
+     "what": "make slides 5 to 9",
+     "due": "2026-10-08"
+    }
+   ]
+  },
+  "m080": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Prof. Gupta",
+     "what": "collect mid-sem copy",
+     "due_phrase": "Monday",
+     "due": "2026-10-12"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Prof. Gupta"
+     ],
+     "what": "collect the mid-sem copy",
+     "due": "2026-10-12"
+    }
+   ]
+  },
+  "m081": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "TPO",
+     "what": "appear for the Infosys aptitude test",
+     "due_phrase": null,
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "TPO"
+     ],
+     "what": "appear for the Infosys aptitude test",
+     "due": null
+    }
+   ]
+  },
+  "m082": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev Malhotra",
+     "what": "upload auth docs to the repo",
+     "due_phrase": "Friday EOD",
+     "due": null
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev Malhotra"
+     ],
+     "what": "document the auth endpoints",
+     "due": "2026-10-16"
+    }
+   ]
+  },
+  "m083": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Library",
+     "what": "return the book",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-17"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Library"
+     ],
+     "what": "return the overdue book",
+     "due": "2026-10-17"
+    }
+   ]
+  },
+  "m084": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman Gupta",
+     "what": "UPI my share of trip money",
+     "due_phrase": "tonight",
+     "due": "2026-10-18"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman Gupta"
+     ],
+     "what": "pay trip share",
+     "due": "2026-10-18"
+    }
+   ]
+  },
+  "m085": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dr. Rao",
+     "what": "send the first draft of the paper",
+     "due_phrase": "next Monday",
+     "due": "2026-10-26"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dr. Rao"
+     ],
+     "what": "send the first paper draft",
+     "due": "2026-10-26"
+    }
+   ]
+  },
+  "m086": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Kabir Jain",
+     "what": "send Aadhaar copy",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-23"
+    },
+    {
+     "to": "Kabir Jain",
+     "what": "sign the agreement",
+     "due_phrase": "Saturday",
+     "due": "2026-10-24"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Kabir Jain"
+     ],
+     "what": "send Aadhaar copy",
+     "due": "2026-10-23"
+    },
+    {
+     "to": [
+      "Kabir Jain"
+     ],
+     "what": "sign the flat agreement",
+     "due": "2026-10-24"
+    }
+   ]
+  },
+  "m087": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Riya Sharma",
+     "what": "redo and send UML diagrams",
+     "due_phrase": "tomorrow 6pm",
+     "due": "2026-10-25"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya Sharma"
+     ],
+     "what": "redo and send the UML diagrams",
+     "due": "2026-10-25"
+    }
+   ]
+  },
+  "m088": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": [
+    {
+     "to": [
+      "Zeta Recruiting"
+     ],
+     "what": "attend the interview",
+     "due": "2026-10-15"
+    }
+   ]
+  },
+  "m089": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dr. Rao",
+     "what": "attend the meeting",
+     "due_phrase": "today 4pm",
+     "due": "2026-10-13"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dr. Rao"
+     ],
+     "what": "meet at 4",
+     "due": "2026-10-13"
+    }
+   ]
+  },
+  "m090": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Riya",
+     "what": "send the CN ppt",
+     "due_phrase": "in 5 minutes",
+     "due": "2026-10-01"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Riya"
+     ],
+     "what": "send the CN ppt",
+     "due": "2026-10-01"
+    }
+   ]
+  },
+  "m091": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Aman",
+     "what": "bring the speaker",
+     "due_phrase": "tonight",
+     "due": "2026-10-03"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Aman"
+     ],
+     "what": "bring the speaker",
+     "due": "2026-10-03"
+    }
+   ]
+  },
+  "m092": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Mom",
+     "what": "send the form photo",
+     "due_phrase": "tomorrow",
+     "due": "2026-10-06"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Mom"
+     ],
+     "what": "send photo for the form",
+     "due": "2026-10-06"
+    }
+   ]
+  },
+  "m093": {
+   "passed_filter": true,
+   "pred": [
+    {
+     "to": "Dev",
+     "what": "take the 3pm client call",
+     "due_phrase": "today",
+     "due": "2026-10-07"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Dev"
+     ],
+     "what": "take the 3pm client call",
+     "due": "2026-10-07"
+    }
+   ]
+  },
+  "m094": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Priya",
+     "what": "handle the references",
+     "due_phrase": "Sunday",
+     "due": "2026-10-11"
+    }
+   ],
+   "gold": [
+    {
+     "to": [
+      "Priya"
+     ],
+     "what": "handle the references",
+     "due": "2026-10-11"
+    }
+   ]
+  },
+  "m095": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m096": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m097": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m098": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m099": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m100": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m101": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m102": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m103": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m104": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m105": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m106": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m107": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m108": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m109": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m110": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m111": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m112": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m113": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m114": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m115": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m116": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m117": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m118": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m119": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m120": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m121": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m122": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m123": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m124": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m125": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m126": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m127": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m128": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m129": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m130": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m131": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m132": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m133": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m134": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m135": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m136": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m137": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m138": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m139": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m140": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m141": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m142": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m143": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m144": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m145": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m146": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m147": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m148": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m149": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m150": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m151": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m152": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m153": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m154": {
+   "passed_filter": true,
+   "pred": [],
+   "gold": []
+  },
+  "m155": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m156": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m157": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m158": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m159": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m160": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m161": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m162": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m163": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m164": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m165": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m166": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m167": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m168": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m169": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m170": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m171": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m172": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m173": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m174": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m175": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m176": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m177": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m178": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m179": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m180": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m181": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m182": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m183": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m184": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m185": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m186": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m187": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m188": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m189": {
+   "passed_filter": false,
+   "pred": [
+    {
+     "to": "Kabir",
+     "what": "arrive",
+     "due_phrase": "now",
+     "due": "2026-10-04"
+    }
+   ],
+   "gold": []
+  },
+  "m190": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m191": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m192": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m193": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m194": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m195": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m196": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m197": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m198": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m199": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m200": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m201": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  },
+  "m202": {
+   "passed_filter": false,
+   "pred": [],
+   "gold": []
+  }
+ }
+}

@@ -34,7 +34,18 @@ def load_promises(source: str) -> list[tuple]:
     if source == "gold":
         items = [(r, g["to"][0], g["what"], g["due"]) for r in rows.values() for g in r["gold"]]
     else:
-        path = Path(source) if source != "latest" else max((HERE / "results").glob("*-claude-*"))
+        path = (
+            Path(source)
+            if source != "latest"
+            else max(
+                (
+                    q
+                    for q in (HERE / "results").glob("*.json")
+                    if not q.stem.endswith(("-prefilter", "-simulation"))
+                ),
+                key=lambda q: q.stat().st_mtime,
+            )
+        )
         report = json.loads(path.read_text(encoding="utf-8"))
         items = [
             (rows[i], p["to"], p["what"], p["due"])

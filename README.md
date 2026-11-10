@@ -9,6 +9,10 @@ oweit reads your WhatsApp chat exports and Gmail mbox, finds the promises **you*
 ("I'll send the notes by Sunday", "kal bhej dunga"), and reminds you gently: **one notification
 a day at most**, and never while you're in class, on Do Not Disturb, or in a full-screen game.
 
+![oweit scanning a chat export and planning the day](docs/demo.gif)
+
+*Recorded from a real run on [examples/](examples/) with Gemini `gemini-3.1-flash-lite`.*
+
 ## Why
 
 Promises made in chat slip, because nobody turns "will do!" into a to-do. Reminder apps fix
@@ -24,10 +28,10 @@ WhatsApp .txt / Gmail .mbox
 regex prefilter ── only YOUR messages that sound like a commitment (English + Hinglish)
   │                everything else never reaches the LLM
   ▼
-Claude (claude-opus-5-5, structured JSON output)
+LLM: Claude (claude-opus-5-5) or Gemini, structured JSON output
   │  who it's owed to, what, and the deadline as a phrase ("Sunday", "kal" → "tomorrow")
   ▼
-dateparser ── phrase → date, relative to when you sent the message (Claude never does date math)
+dateparser ── phrase → date, relative to when you sent the message (the LLM never does date math)
   ▼
 SQLite on your machine ── done / snooze
   ▼
@@ -50,8 +54,10 @@ snooze it. Toasts are silent.
 
 ## Install
 
-Needs Python 3.12+ and an [Anthropic API key](https://console.anthropic.com/) in
-`ANTHROPIC_API_KEY`.
+Needs Python 3.12+ and one LLM key: an [Anthropic API key](https://console.anthropic.com/) in
+`ANTHROPIC_API_KEY`, or a [Gemini API key](https://aistudio.google.com/apikey) in
+`GEMINI_API_KEY` (used when no Anthropic key is set; pick the model with `OWEIT_GEMINI_MODEL`,
+default `gemini-3.5-flash`).
 
 ```bash
 uv tool install git+https://github.com/NAMAN-VERMA-02/oweit
@@ -70,7 +76,7 @@ uv tool install git+https://github.com/NAMAN-VERMA-02/oweit
    ```bash
    oweit scan "WhatsApp Chat with Riya.txt" Sent.mbox
    ```
-   Rescanning the same export is free: messages already seen never go to Claude again.
+   Rescanning the same export is free: messages already seen never go to the LLM again.
 5. **Look, tick off, snooze.**
    ```bash
    oweit list
@@ -88,7 +94,7 @@ uv tool install git+https://github.com/NAMAN-VERMA-02/oweit
    and Linux it prints a cron line instead.
 
 `oweit stats` shows the live numbers: reminders per promise, promises moved because you were
-busy, and Claude calls made.
+busy, and LLM calls made.
 
 ## Numbers
 
@@ -100,7 +106,7 @@ All numbers come from real runs; the raw outputs are committed in
 202 hand-written, hand-labelled messages ([eval/](eval/)); the regex was tuned on the `dev`
 half only. Source: [eval/results/2026-11-09-prefilter.json](eval/results/2026-11-09-prefilter.json).
 
-| Split | Messages | Sent to Claude | LLM calls avoided | Promises that got through |
+| Split | Messages | Sent to the LLM | LLM calls avoided | Promises that got through |
 |---|---|---|---|---|
 | test | 101 | 61 | 39.6% | 87.8% |
 | all | 202 | 127 | 37.1% | 93.8% |
@@ -108,29 +114,45 @@ half only. Source: [eval/results/2026-11-09-prefilter.json](eval/results/2026-11
 Every message in this set is the user's own and nearly half contain a promise, so on a real
 chat export, where most lines are other people's, far more calls are avoided.
 
-### Extraction with Claude
+### Extraction (real run, Gemini `gemini-3.1-flash-lite`, 10 Nov 2026)
 
-Precision, recall and date accuracy need the first full run with an API key
-(`uv run python eval/run_eval.py`). They will land here with the raw output in
-[eval/results/](eval/results/).
+Every one of the 202 messages was sent to the model once, so the same run scores both the real
+pipeline (prefilter, then the LLM) and the LLM alone. A predicted promise counts if the message
+really holds one; date accuracy is exact-day match on those, with "no deadline" vs "no deadline"
+counted as correct. Source:
+[eval/results/2026-11-10-gemini-3.1-flash-lite.json](eval/results/2026-11-10-gemini-3.1-flash-lite.json).
+
+| Split | Arm | Precision | Recall | F1 | Recipient | Date accuracy |
+|---|---|---|---|---|---|---|
+| **test** | **prefilter + LLM** | **0.955** | **0.857** | **0.903** | 1.0 | **0.952** |
+| test | LLM on every message | 0.960 | 0.980 | 0.970 | 1.0 | 0.958 |
+| all | prefilter + LLM | 0.957 | 0.928 | 0.942 | 1.0 | 0.944 |
+| all | LLM on every message | 0.950 | 0.990 | 0.970 | 1.0 | 0.948 |
+
+On the held-out test half, the prefilter skips 40% of LLM calls and costs 12 points of recall:
+it drops promises phrased in ways the regex (tuned on the dev half only) does not match. 0 refusals; the full run used
+101,587 input and 7,293 output tokens. This run used Gemini because that was the key at hand;
+Claude numbers would replace or sit beside it after a Claude run.
 
 ### Reminders (simulation)
 
 The real scheduler, replayed on a fake clock from 1 Oct to 8 Nov 2026 (39 days) against a
 hand-written college timetable (packed Thursdays, a packed exam week, a hackathon weekend, a
 travel day), 4 events added on the morning of, and 8 Do Not Disturb / full-screen windows.
-The 97 promises are the eval set's hand labels, each kept on its due date.
-Source: [eval/results/2026-11-09-simulation.json](eval/results/2026-11-09-simulation.json).
+Promises come from the real extraction run above (94 promises the pipeline found), with the
+run on the 97 hand labels alongside. Sources:
+[2026-11-10-simulation.json](eval/results/2026-11-10-simulation.json) (pipeline),
+[2026-11-09-simulation.json](eval/results/2026-11-09-simulation.json) (hand labels).
 
-| | |
-|---|---|
-| Most notifications in one day | **1** |
-| Notifications in 39 days | 30 (13 digests, 17 due-today nudges) |
-| Reminders per promise | 0.9 on average, never more than 2 |
-| Promises moved because you were busy | 24 (18 packed calendar, 4 Do Not Disturb, 2 full screen) |
-| Days re-planned after a calendar change | 4 |
-| Promises due on a later day that got no reminder by their due date | **0** |
-| Promises made and due the same day that got no reminder | 18 |
+| | Pipeline promises | Hand labels |
+|---|---|---|
+| Most notifications in one day | **1** | **1** |
+| Notifications in 39 days | 30 (13 digests, 17 nudges) | 30 (13 digests, 17 nudges) |
+| Reminders per promise | 0.95 avg, max 2 | 0.9 avg, max 2 |
+| Promises moved because you were busy | 25 (20 calendar, 3 DND, 2 full screen) | 24 (18 calendar, 4 DND, 2 full screen) |
+| Days re-planned after a calendar change | 4 | 4 |
+| Due on a later day, no reminder by the due date | **0** | **0** |
+| Made and due the same day, no reminder | 13 | 18 |
 
 The last row is on purpose: "sending in 5" or "tonight" said after the day's one reminder has
 gone out doesn't get a second notification.
@@ -142,7 +164,7 @@ A 7-day run on my own laptop and calendar is planned for v0.1.1.
 ## Privacy
 
 - Your exports and the database stay on your machine.
-- Only messages that pass the prefilter are sent to the Anthropic API, each with up to 3
+- Only messages that pass the prefilter are sent to the LLM API (Anthropic or Google), each with up to 3
   earlier lines of the chat (or the quoted part of an email) for context.
 - Other people's messages are never sent on their own, only as context lines.
 
@@ -160,7 +182,7 @@ A 7-day run on my own laptop and calendar is planned for v0.1.1.
 uv sync
 uv run pytest
 uv run python eval/run_eval.py --no-llm   # prefilter numbers, no API key needed
-uv run python eval/run_eval.py            # full eval, about 200 Claude calls
+uv run python eval/run_eval.py            # full eval, 202 LLM calls (resumable)
 uv run python eval/simulate.py            # replays Oct 2026 through the scheduler
 ```
 

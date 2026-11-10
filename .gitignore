@@ -12,3 +12,4 @@ private/
 *.mbox
 !examples/*.mbox
 *.stackdump
+eval/results/.cache-*
