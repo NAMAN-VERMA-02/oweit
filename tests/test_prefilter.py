@@ -18,6 +18,10 @@ from oweit.prefilter import is_candidate
         "abhi bhejta hu",
         "I can drop it off by Friday",
         "I promise I'll pay you back",
+        "yep, done 👍",
+        "sure, I can take it",
+        "Yes ma'am, 4 works.",
+        "Confirmed, see you on Saturday.",
     ],
 )
 def test_commitment_like_passes(text):
@@ -34,6 +38,7 @@ def test_commitment_like_passes(text):
         "ok",
         "where are you",
         "thanks bro",
+        "done with the exam finally",
     ],
 )
 def test_plain_messages_dropped(text):
