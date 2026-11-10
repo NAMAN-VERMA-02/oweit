@@ -45,8 +45,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def cmd_scan(args, cfg, conn) -> None:
-    import anthropic
-
     from oweit import extract
 
     client = None
@@ -58,7 +56,7 @@ def cmd_scan(args, cfg, conn) -> None:
         cands = [m for m in fresh if prefilter.is_candidate(m.text)]
         found = 0
         for m in cands:
-            client = client or anthropic.Anthropic()
+            client = client or extract.make_client()
             for i, p in enumerate(extract.extract(m, client).promises):
                 if store.add_promise(conn, f"{m.key}:{i}", m.source, m.ts, p, today):
                     found += 1
@@ -183,9 +181,12 @@ def main(argv: list[str] | None = None) -> int:
     except Exception as e:  # API/auth/network errors: say what happened, no traceback wall
         import anthropic  # imported lazily: `tick` runs every 30 min and never needs it
 
-        if not isinstance(e, anthropic.AnthropicError):
+        if isinstance(e, anthropic.AnthropicError):
+            print(f"oweit: Claude API error: {e}", file=sys.stderr)
+        elif isinstance(e, RuntimeError) and str(e).startswith("Gemini API error"):
+            print(f"oweit: {e}", file=sys.stderr)
+        else:
             raise
-        print(f"oweit: Claude API error: {e}", file=sys.stderr)
         return 1
     finally:
         conn.close()

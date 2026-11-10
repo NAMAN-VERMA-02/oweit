@@ -1,4 +1,4 @@
-"""Score oweit's extraction on eval/messages.jsonl with real Claude calls.
+"""Score oweit's extraction on eval/messages.jsonl with real LLM calls (Claude or Gemini).
 
     uv run python eval/run_eval.py            # full run, writes eval/results/<date>-<model>.json
     uv run python eval/run_eval.py --no-llm   # prefilter numbers only, no API key needed
@@ -21,7 +21,8 @@ from oweit import extract, prefilter
 from oweit.sources import Message
 
 HERE = Path(__file__).parent
-PRICE_IN, PRICE_OUT = 4.00, 20.00  # USD per 1M tokens for claude-opus-5-5
+# USD per 1M tokens (input, output), list prices
+PRICES = {"claude-opus-5-5": (4.00, 20.00), "gemini-2.5-flash": (0.30, 2.50)}
 TITLES = {"prof", "dr", "mr", "mrs", "ms", "sir", "madam", "the"}
 
 
@@ -114,9 +115,9 @@ def main() -> int:
             print(f"  {r['id']} [{r['split']}] {r['text']!r}")
         return 0
 
-    import anthropic
-
-    client = anthropic.Anthropic()
+    client = extract.make_client()
+    model = extract.model_name(client)
+    PRICE_IN, PRICE_OUT = PRICES.get(model, (0.0, 0.0))  # unknown model: cost shows 0
 
     def run(r: dict) -> tuple[str, extract.Result]:
         return r["id"], extract.extract(as_message(r), client)
@@ -147,8 +148,8 @@ def main() -> int:
 
     report = {
         "run_at": datetime.now().isoformat(timespec="seconds"),
-        "model": extract.MODEL,
-        "effort": "low",
+        "model": model,
+        "effort": "low" if model == extract.MODEL else None,
         "dataset": "eval/messages.jsonl (hand-written, hand-labelled)",
         "refusals": sum(r.refused for r in results.values()),
         "cost_usd": {
@@ -175,7 +176,7 @@ def main() -> int:
         r["id"]: {"passed_filter": r["id"] in passed, "pred": no_filter[r["id"]], "gold": r["gold"]}
         for r in rows
     }
-    out = HERE / "results" / f"{date.today()}-{extract.MODEL}.json"
+    out = HERE / "results" / f"{date.today()}-{model}.json"
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps(report, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -183,7 +184,7 @@ def main() -> int:
     for split, s in report["splits"].items():
         p, n, f = s["pipeline"], s["no_filter"], s["prefilter"]
         print(
-            f"\n[{split}] {f['messages']} messages, {f['sent_to_claude']} sent to Claude "
+            f"\n[{split}] {f['messages']} messages, {f['sent_to_claude']} sent to the LLM "
             f"({f['llm_calls_avoided']:.0%} avoided), filter recall {f['filter_recall']:.0%}"
         )
         print("arm        precision  recall  f1     recipient  date")

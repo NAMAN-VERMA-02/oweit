@@ -114,3 +114,52 @@ def test_scan_end_to_end_with_fake_claude(tmp_path, monkeypatch, capsys):
     assert run("list") == 0
     out = capsys.readouterr().out
     assert "Sun 18 Oct  Riya: send the DBMS notes" in out
+
+
+def test_gemini_backend_parses_json_and_resolves_dates(monkeypatch):
+    import io
+    import json as _json
+    from datetime import datetime
+
+    from oweit import extract as ex
+    from oweit.sources import Message
+
+    reply = {
+        "candidates": [
+            {
+                "finishReason": "STOP",
+                "content": {
+                    "parts": [
+                        {
+                            "text": _json.dumps(
+                                {
+                                    "promises": [
+                                        {
+                                            "to": "Riya",
+                                            "what": "send notes",
+                                            "due_phrase": "tomorrow",
+                                            "quote": "kal bhej dunga",
+                                        }
+                                    ]
+                                }
+                            )
+                        }
+                    ]
+                },
+            }
+        ],
+        "usageMetadata": {"promptTokenCount": 100, "candidatesTokenCount": 20},
+    }
+    seen = {}
+
+    def fake_urlopen(req, timeout):
+        seen["key"] = req.get_header("X-goog-api-key")
+        seen["url"] = req.full_url
+        return io.BytesIO(_json.dumps(reply).encode())
+
+    monkeypatch.setattr(ex.urllib.request, "urlopen", fake_urlopen)
+    msg = Message("whatsapp", "Riya", datetime(2026, 10, 5, 20, 0), "Me", "kal bhej dunga", True)
+    r = ex.extract(msg, ex.GeminiClient("k"))
+    assert seen["key"] == "k" and "k" not in seen["url"]
+    assert r.promises[0].to == "Riya" and str(r.promises[0].due) == "2026-10-06"
+    assert (r.input_tokens, r.output_tokens, r.refused) == (100, 20, False)
