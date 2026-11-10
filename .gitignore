@@ -11,3 +11,4 @@ build/
 private/
 *.mbox
 !examples/*.mbox
+*.stackdump
