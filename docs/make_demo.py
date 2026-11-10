@@ -1,4 +1,4 @@
-"""Record docs/demo.gif from real oweit runs on examples/ (calls Claude: needs ANTHROPIC_API_KEY).
+"""Record docs/demo.gif from real oweit runs on examples/ (calls the LLM: needs an API key).
 
     uv run --group demo python docs/make_demo.py
 

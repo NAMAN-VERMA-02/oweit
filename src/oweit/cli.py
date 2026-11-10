@@ -79,7 +79,7 @@ def cmd_scan(args, cfg, conn) -> None:
         skipped = 1 - len(cands) / len(msgs) if msgs else 0
         print(
             f"{path}: {len(msgs)} messages, {len(mine)} new from you, {len(cands)} sent to "
-            f"Claude ({skipped:.0%} needed no call), {found} new promises"
+            f"the LLM ({skipped:.0%} needed no call), {found} new promises"
         )
 
 

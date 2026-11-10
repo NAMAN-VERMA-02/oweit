@@ -132,7 +132,7 @@ def resolve_date(phrase: str | None, base: datetime) -> date | None:
     return d.date() if d else None
 
 
-GEMINI_MODEL = os.environ.get("OWEIT_GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.environ.get("OWEIT_GEMINI_MODEL", "gemini-3.5-flash")
 # Gemini's responseSchema is OpenAPI-style: nullable instead of anyOf, no additionalProperties
 _GEMINI_SCHEMA = {
     "type": "object",
@@ -181,11 +181,15 @@ class GeminiClient:
         )
         for attempt in range(8):
             try:
-                with urllib.request.urlopen(req, timeout=120) as r:
+                with urllib.request.urlopen(req, timeout=300) as r:
                     data = json.load(r)
                 break
+            except TimeoutError:
+                if attempt == 7:
+                    raise RuntimeError("Gemini API error: timed out 8 times") from None
+                continue
             except urllib.error.HTTPError as e:
-                if e.code not in (429, 500, 503) or attempt == 7:
+                if e.code not in (429, 500, 503, 504) or attempt == 7:
                     raise RuntimeError(f"Gemini API error {e.code}: {e.read()[:300]!r}") from None
                 time.sleep(min(60, 2**attempt * 2))  # free tier rate limits: back off and retry
         u = data.get("usageMetadata", {})

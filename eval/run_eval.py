@@ -13,6 +13,7 @@ import argparse
 import json
 import re
 import sys
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime
 from pathlib import Path
@@ -22,7 +23,7 @@ from oweit.sources import Message
 
 HERE = Path(__file__).parent
 # USD per 1M tokens (input, output), list prices
-PRICES = {"claude-opus-5-5": (4.00, 20.00), "gemini-2.5-flash": (0.30, 2.50)}
+PRICES = {"claude-opus-5-5": (4.00, 20.00)}
 TITLES = {"prof", "dr", "mr", "mrs", "ms", "sir", "madam", "the"}
 
 
@@ -117,13 +118,39 @@ def main() -> int:
 
     client = extract.make_client()
     model = extract.model_name(client)
-    PRICE_IN, PRICE_OUT = PRICES.get(model, (0.0, 0.0))  # unknown model: cost shows 0
+    price = PRICES.get(model)  # None: price not known, cost reported as null
 
-    def run(r: dict) -> tuple[str, extract.Result]:
-        return r["id"], extract.extract(as_message(r), client)
+    # each answer is saved as it arrives, so a quota/rate-limit stop can be resumed by rerunning
+    cache = HERE / "results" / f".cache-{model}.jsonl"
+    results: dict[str, extract.Result] = {}
+    if cache.exists():
+        for line in cache.open(encoding="utf-8"):
+            c = json.loads(line)
+            ps = [
+                extract.Promise(**{**p, "due": p["due"] and date.fromisoformat(p["due"])})
+                for p in c["promises"]
+            ]
+            results[c["id"]] = extract.Result(ps, c["in"], c["out"], c["refused"])
+    lock = threading.Lock()
 
+    def run(r: dict) -> None:
+        res = extract.extract(as_message(r), client)
+        row = {
+            "id": r["id"],
+            "in": res.input_tokens,
+            "out": res.output_tokens,
+            "refused": res.refused,
+            "promises": [{**vars(p), "due": p.due and p.due.isoformat()} for p in res.promises],
+        }
+        with lock:
+            results[r["id"]] = res
+            with cache.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+    todo = [r for r in rows if r["id"] not in results]
+    print(f"{len(results)} cached, {len(todo)} to call", flush=True)
     with ThreadPoolExecutor(args.workers) as pool:
-        results = dict(pool.map(run, rows))
+        list(pool.map(run, todo))
 
     def preds(ids):
         return {
@@ -152,9 +179,10 @@ def main() -> int:
         "effort": "low" if model == extract.MODEL else None,
         "dataset": "eval/messages.jsonl (hand-written, hand-labelled)",
         "refusals": sum(r.refused for r in results.values()),
-        "cost_usd": {
-            "pipeline": round((pipe_in * PRICE_IN + pipe_out * PRICE_OUT) / 1e6, 3),
-            "no_filter": round((tok_in * PRICE_IN + tok_out * PRICE_OUT) / 1e6, 3),
+        "cost_usd": price
+        and {
+            "pipeline": round((pipe_in * price[0] + pipe_out * price[1]) / 1e6, 3),
+            "no_filter": round((tok_in * price[0] + tok_out * price[1]) / 1e6, 3),
         },
         "tokens": {"input": tok_in, "output": tok_out},
         "splits": {},
@@ -193,9 +221,10 @@ def main() -> int:
                 f"{name:<10} {m['precision']:<10} {m['recall']:<7} {m['f1']:<6} "
                 f"{m['recipient_accuracy']:<10} {m['date_accuracy']}"
             )
+    c = report["cost_usd"] or {"pipeline": "?", "no_filter": "?"}
     print(
-        f"\ncost: pipeline ${report['cost_usd']['pipeline']}, "
-        f"no_filter ${report['cost_usd']['no_filter']}, refusals {report['refusals']}"
+        f"\ncost: pipeline ${c['pipeline']}, no_filter ${c['no_filter']}, "
+        f"tokens {report['tokens']}, refusals {report['refusals']}"
     )
     return 0
 
