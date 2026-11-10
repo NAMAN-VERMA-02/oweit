@@ -118,6 +118,17 @@ def test_packed_day_moves_non_urgent_and_nudges_due_today_at_free_slot(db):
     assert inbox.sent == [(MON, "nudge", ["send notes"])]
 
 
+def test_deferral_never_jumps_past_the_due_date(db):
+    # due Wednesday; Tuesday and Wednesday are both packed, so the next free day is Thursday
+    tue, wed = MON + timedelta(days=1), MON + timedelta(days=2)
+    owe(db, "submit report", wed)
+    c, inbox = cal(*packed(tue), *packed(wed)), Inbox()
+    tick(db, c, S, at(tue, "10:00"), free, inbox)
+    assert remind_on(db, "submit report") == wed  # not Thursday
+    tick(db, c, S, at(wed, "13:00"), free, inbox)
+    assert inbox.sent == [(wed, "nudge", ["submit report"])]
+
+
 def test_next_free_day_skips_packed_days():
     c = cal(*packed(MON + timedelta(days=1)), *packed(MON + timedelta(days=2)))
     assert next_free_day(c, MON, S) == MON + timedelta(days=3)

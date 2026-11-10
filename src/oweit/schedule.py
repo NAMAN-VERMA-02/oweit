@@ -153,7 +153,10 @@ def next_remind(due: str | None, day: date) -> date:
 
 def _defer(conn, rows, to: date, day: date, reason: str, now: datetime) -> None:
     for r in rows:
-        conn.execute("UPDATE promises SET remind_on=? WHERE id=?", (to.isoformat(), r["id"]))
+        due = date.fromisoformat(r["due"]) if r["due"] else None
+        # never move a reminder past the deadline: on its due day it becomes the urgent nudge
+        target = due if due and day < due < to else to
+        conn.execute("UPDATE promises SET remind_on=? WHERE id=?", (target.isoformat(), r["id"]))
         conn.execute(
             "INSERT INTO log VALUES (?,?,?,?,?)",
             (now.isoformat(), day.isoformat(), r["id"], "deferred", reason),
