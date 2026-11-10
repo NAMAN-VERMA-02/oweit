@@ -1,0 +1,33 @@
+[project]
+name = "oweit"
+version = "0.1.0"
+description = "Finds the promises you made in WhatsApp chats and email, and reminds you gently: one digest a day, never while you're busy."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Naman Verma" }]
+dependencies = []
+
+[project.scripts]
+oweit = "oweit.cli:main"
+
+[project.gui-scripts]
+# windowless entry point so the scheduled task doesn't flash a console every 30 minutes
+oweitw = "oweit.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]
+
+[build-system]
+requires = ["uv_build>=0.9,<0.14"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

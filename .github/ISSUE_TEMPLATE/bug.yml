@@ -1,0 +1,31 @@
+name: Bug report
+description: oweit did something wrong (missed a promise, reminded at a bad time, crashed)
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, what you got. Paste the command and its output.
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Smallest input that shows it
+      description: A few lines of chat or email that trigger the bug. Replace real names and numbers first.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: oweit version
+      placeholder: "oweit --version"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      options: [Windows 11, Windows 10, macOS, Linux]
+    validations:
+      required: true
